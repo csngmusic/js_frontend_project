@@ -8,21 +8,38 @@ class Playlist extends React.Component{
       favorite: this.props.track.favorite
     }
 
-    this.handleClick = this.handleClick.bind(this);
+    this.onStatusClick = this.onStatusClick.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
-  handleClick(e) {
+  onStatusClick(e) {
     e.preventDefault();
 
     this.setState({
       favorite: !this.state.favorite
     });
+  }
+  onDeleteClick(e) {
+    e.preventDefault();
 
+    fetch(`playlist/${this.props.track._id}`, {method: 'DELETE'}).then(function(res) {
+      if (res.status === 200) {
+        console.log('Deleted');
+      }
+      else {
+        console.log('Not deleted');
+      }
+    }).then((data) => {
+      this.setState({
+        tasks: data
+      });
+    });
   }
 
   render() {
     return(
-      <li onClick={this.handleClick}>{this.props.track.name} - {this.state.favorite? 'Liked' : 'Not liked'}</li>
+      <li>{this.props.track.name} - {this.state.favorite? 'Liked' : 'Not liked'} <button onClick={this.onStatusClick}>Favorite</button>
+      <button onClick={this.onDeleteClick}>Delete</button></li>
     )
   }
 }
