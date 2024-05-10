@@ -22,16 +22,18 @@ class Playlist extends React.Component{
   onDeleteClick(e) {
     e.preventDefault();
 
-    fetch(`playlist/${this.props.track._id}`, {method: 'DELETE'}).then(function(res) {
+    fetch(`playlist/${this.props.track._id}`, {method: 'DELETE'
+    }).then((res) => {
       if (res.status === 200) {
         console.log('Deleted');
+        this.props.onTrackDelete(this.props.track._id);
       }
       else {
         console.log('Not deleted');
       }
     }).then((data) => {
       this.setState({
-        tasks: data
+        playlist: data
       });
     });
   }

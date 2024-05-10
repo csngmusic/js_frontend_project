@@ -8,6 +8,8 @@ class App extends React.Component{
     this.state = {
       playlist: []
     }
+
+    this.onTrackDelete = this.onTrackDelete.bind(this);
   }
 
   componentDidMount() {
@@ -20,18 +22,24 @@ class App extends React.Component{
     });
   }
 
+  onTrackDelete(_id) {
+    this.setState({
+      playlist: this.state.playlist.filter(function(track) {
+        return track._id !== _id;
+      })
+    });
+  }
+
   render() {
-    function mapPlaylist(track){
-      return(
-        <Playlist track={track} key = {track._id} />
-      )
-    }
-    
     return (
       <div className="App">
         <ul>
           {
-            this.state.playlist.map(mapPlaylist)
+            this.state.playlist.map((track) => {
+              return(
+                <Playlist track={track} onTrackDelete = {this.onTrackDelete} key = {track._id} />
+              )
+            })
           }
         </ul>
       </div>
