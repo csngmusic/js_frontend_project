@@ -1,64 +1,56 @@
 import React from 'react';
+import PlaylistTrack from './PlaylistTrack';
 
 class Playlist extends React.Component{
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      favorite: this.props.track.favorite
+      playlist: []
     }
 
-    this.onStatusClick = this.onStatusClick.bind(this);
-    this.onDeleteClick = this.onDeleteClick.bind(this);
+    this.onTrackDelete = this.onTrackDelete.bind(this);
+    this.onTrackAdd = this.onTrackAdd.bind(this);
   }
 
-  onStatusClick(e) {
-    e.preventDefault();
-
-    fetch(`playlist/${this.props.track._id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        favorite: !this.state.favorite
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => {
-      if (res.status === 200) {
-        console.log('Updated');
-        this.setState({
-          favorite: !this.state.favorite
-        });
-      }
-      else {
-        console.log('Not updated');
-      }
+  componentDidMount() {
+    fetch('playlist').then(function(res) {
+      return res.json();
+    }).then((data) => {
+      this.setState({
+        playlist: data
+      });
     });
   }
-  onDeleteClick(e) {
-    e.preventDefault();
 
-    fetch(`playlist/${this.props.track._id}`, {method: 'DELETE'
-    }).then((res) => {
-      if (res.status === 200) {
-        console.log('Deleted');
-        this.props.onTrackDelete(this.props.track._id);
-      }
-      else {
-        console.log('Not deleted');
-      }
-    })
+  onTrackDelete(_id) {
+    this.setState({
+      playlist: this.state.playlist.filter(function(track) {
+        return track._id !== _id;
+      })
+    });
+  }
+
+  onTrackAdd(track) {
+    this.setState({
+      playlist: [...this.state.playlist, track]
+    });
   }
 
   render() {
-    return(
-      <li> 
-        <span>{this.props.track.name} </span>
-        <span><i>{this.props.track.genre} </i></span>
-        <span onClick={this.onStatusClick}><b>{this.state.favorite? 'Liked' : 'Not liked'} </b></span>
-        <button onClick={this.onDeleteClick}>Delete</button>
-      </li>
-      )
+    return (
+      <div className="List">
+        <ul>
+          {
+            this.state.playlist.map((track) => {
+              return(
+                <PlaylistTrack track={track} onTrackDelete = {this.onTrackDelete} key = {track._id} />
+              )
+            })
+          }
+        </ul>
+      </div>
+    );
   }
 }
 
