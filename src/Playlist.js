@@ -15,8 +15,24 @@ class Playlist extends React.Component{
   onStatusClick(e) {
     e.preventDefault();
 
-    this.setState({
-      favorite: !this.state.favorite
+    fetch(`playlist/${this.props.track._id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        favorite: !this.state.favorite
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      if (res.status === 200) {
+        console.log('Updated');
+        this.setState({
+          favorite: !this.state.favorite
+        });
+      }
+      else {
+        console.log('Not updated');
+      }
     });
   }
   onDeleteClick(e) {
