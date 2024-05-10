@@ -31,18 +31,18 @@ class Playlist extends React.Component{
       else {
         console.log('Not deleted');
       }
-    }).then((data) => {
-      this.setState({
-        playlist: data
-      });
-    });
+    })
   }
 
   render() {
     return(
-      <li>{this.props.track.name} - {this.state.favorite? 'Liked' : 'Not liked'} <button onClick={this.onStatusClick}>Favorite</button>
-      <button onClick={this.onDeleteClick}>Delete</button></li>
-    )
+      <li> 
+        <span>{this.props.track.name} </span>
+        <span><i>{this.props.track.genre} </i></span>
+        <span onClick={this.onStatusClick}><b>{this.state.favorite? 'Liked' : 'Not liked'} </b></span>
+        <button onClick={this.onDeleteClick}>Delete</button>
+      </li>
+      )
   }
 }
 

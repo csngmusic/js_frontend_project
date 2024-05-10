@@ -1,6 +1,6 @@
 import React from 'react';
 import Playlist from './Playlist';
-
+import PlaylistAdd from './PlaylistAdd';
 class App extends React.Component{
   constructor(props) {
     super(props);
@@ -10,6 +10,7 @@ class App extends React.Component{
     }
 
     this.onTrackDelete = this.onTrackDelete.bind(this);
+    this.onTrackAdd = this.onTrackAdd.bind(this);
   }
 
   componentDidMount() {
@@ -30,9 +31,16 @@ class App extends React.Component{
     });
   }
 
+  onTrackAdd(track) {
+    this.setState({
+      playlist: [...this.state.playlist, track]
+    });
+  }
+
   render() {
     return (
       <div className="App">
+        <PlaylistAdd onTrackAdd = {this.onTrackAdd}/>
         <ul>
           {
             this.state.playlist.map((track) => {
