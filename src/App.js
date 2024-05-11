@@ -4,13 +4,47 @@ import Playlist from './Playlist'
 import PlaylistTrackAdd from './PlaylistTrackAdd';
 
 class App extends React.Component{
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      playlist: []
+    }
+
+    this.onTrackDelete = this.onTrackDelete.bind(this);
+    this.onTrackAdd = this.onTrackAdd.bind(this);
+  }
+  
+  componentDidMount() {
+    fetch('playlist').then(function(res) {
+      return res.json();
+    }).then((data) => {
+      this.setState({
+        playlist: data
+      });
+    });
+  }
+
+  onTrackDelete(_id) {
+    this.setState({
+      playlist: this.state.playlist.filter(function(track) {
+        return track._id !== _id;
+      })
+    });
+  }
+
+  onTrackAdd(track) {
+    this.setState({
+      playlist: [...this.state.playlist, track]
+    });
+  }
   render() {
     return (
       <div className="App">
         <Router>
           <Routes>
-            <Route path="/" element = {<Playlist />} />
-            <Route path="/add" element = {<PlaylistTrackAdd />} />
+            <Route path="/" element = {<Playlist playlist = {this.state.playlist} onTrackDelete = {this.onTrackDelete} />} />
+            <Route path="/add" element = {<PlaylistTrackAdd onTrackAdd = {this.onTrackAdd} />} />
           </Routes>
         </Router>
       </div>
