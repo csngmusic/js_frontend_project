@@ -1,55 +1,34 @@
 import React from 'react';
+import {Provider, connect} from 'react-redux';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
 import Playlist from './Playlist'
 import PlaylistTrackAdd from './PlaylistTrackAdd';
+import { playlistAddAll } from './actions';
 
 class App extends React.Component{
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      playlist: []
-    }
-
-    this.onTrackDelete = this.onTrackDelete.bind(this);
-    this.onTrackAdd = this.onTrackAdd.bind(this);
-  }
-  
   componentDidMount() {
     fetch('playlist').then(function(res) {
       return res.json();
     }).then((data) => {
-      this.setState({
-        playlist: data
-      });
+      this.props.dispatch(playlistAddAll(data));
     });
   }
 
-  onTrackDelete(_id) {
-    this.setState({
-      playlist: this.state.playlist.filter(function(track) {
-        return track._id !== _id;
-      })
-    });
-  }
-
-  onTrackAdd(track) {
-    this.setState({
-      playlist: [...this.state.playlist, track]
-    });
-  }
   render() {
     return (
       <div className="App">
-        <Router>
-          <Routes>
-            <Route path="/" element = {<Playlist playlist = {this.state.playlist} onTrackDelete = {this.onTrackDelete} />} />
-            <Route path="/add" element = {<PlaylistTrackAdd onTrackAdd = {this.onTrackAdd} />} />
-          </Routes>
-        </Router>
+        <Provider store={this.props.store}>
+          <Router>
+            <Routes>
+              <Route path="/" element = {<Playlist />} />
+              <Route path="/add" element = {<PlaylistTrackAdd />} />
+            </Routes>
+          </Router>
+        </Provider>
       </div>
     );
   }
 }
 
-export default App;
+export default connect()(App);
