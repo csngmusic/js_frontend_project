@@ -52,12 +52,14 @@ class PlaylistTrack extends React.Component{
 
   render() {
     return(
-      <li> 
-        <span>{this.props.track.name} </span>
-        <span><i>{this.props.track.genre} </i></span>
-        <span onClick={this.onStatusClick}><b>{this.props.track.favorite? 'Liked' : 'Not liked'} </b></span>
-        <button onClick={this.onDeleteClick}>Delete</button>
-      </li>
+
+      <tr>
+      <td><button onClick={this.onStatusClick} className=  "btn" id = "like">{this.props.track.favorite? <i className = "fa fa-heart"></i> : <i className = "fa fa-heart-o"></i>}</button></td>
+      <td>{this.props.track.name}</td>
+      <td>{this.props.track.genre}</td>
+      <td><button className = "btn" id = "delete" onClick={this.onDeleteClick}>Delete</button></td>
+    </tr>
+
       )
   }
 }

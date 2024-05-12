@@ -56,13 +56,22 @@ class PlaylistTrackAddInner extends React.Component{
 
   render() {
     return(
-      <div className="Add">
-        <NavLink to='/'>Back to list</NavLink>
-        <form onSubmit={this.onAddFormSubmit}>
-          <input type="text" value={this.state.name} onChange={this.onNameChange} placeholder='Name'/>
-          <input type="text" value={this.state.genre} onChange={this.onGenreChange} placeholder='Genre'/>
-          <input type="submit" value="Add" />
-        </form>
+      <div className = "container" id="main">
+        <div className = "row">
+          <div className = "col-sm-8" id = "detail">
+            <h1><b>Add new music to playlist</b></h1>
+            <NavLink to='/' className="btn" id = "add">Back</NavLink>
+          </div>
+        </div>
+        <tbody>
+          <div className="widget-content">
+            <div className='widget-content-wrapper'>
+              <td><input type="text" value={this.state.name} onChange={this.onNameChange} placeholder='Name' className='form-control'/></td>
+              <td><input type="text" value={this.state.genre} onChange={this.onGenreChange} placeholder='Genre' className='form-control'/></td>
+              <td><input type="submit" value="Add" className='btn' id='add' onClick={this.onAddFormSubmit}/></td>
+            </div>
+          </div>
+        </tbody>
       </div>
         )
   }
