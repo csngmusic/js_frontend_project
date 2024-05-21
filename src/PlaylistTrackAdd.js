@@ -63,15 +63,15 @@ class PlaylistTrackAddInner extends React.Component{
             <NavLink to='/' className="btn" id = "add">Back</NavLink>
           </div>
         </div>
-        <tbody>
-          <div className="widget-content">
-            <div className='widget-content-wrapper'>
-              <td><input type="text" value={this.state.name} onChange={this.onNameChange} placeholder='Name' className='form-control'/></td>
-              <td><input type="text" value={this.state.genre} onChange={this.onGenreChange} placeholder='Genre' className='form-control'/></td>
-              <td><input type="submit" value="Add" className='btn' id='add' onClick={this.onAddFormSubmit}/></td>
-            </div>
+        <div className="widget-content">
+          <div className='widget-content-wrapper'>
+            <form className="form-inline">
+              <input type="text" value={this.state.name} onChange={this.onNameChange} placeholder='Name' className='form-control'/>
+              <input type="text" value={this.state.genre} onChange={this.onGenreChange} placeholder='Genre' className='form-control'/>
+              <input type="submit" value="Add" className='btn' id='add' onClick={this.onAddFormSubmit}/>
+            </form>
           </div>
-        </tbody>
+        </div>
       </div>
         )
   }
